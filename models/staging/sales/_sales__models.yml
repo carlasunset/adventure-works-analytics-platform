@@ -1,0 +1,96 @@
+version: 2
+
+models:
+  - name: stg_sales__sales_orders
+    description: >
+      Pedidos de venda da Adventure Works. Cada registro representa
+      um único pedido realizado por um cliente.
+
+    columns:
+      - name: sales_order_id
+        description: Identificador único do pedido.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: order_date
+        description: Data em que o pedido foi realizado.
+        data_tests:
+          - not_null
+
+      - name: status
+        description: Código do status do pedido.
+
+      - name: customer_id
+        description: Identificador do cliente que realizou o pedido.
+        data_tests:
+          - not_null
+
+      - name: territory_id
+        description: Identificador do território comercial associado ao pedido.
+
+      - name: bill_to_address_id
+        description: Identificador do endereço de cobrança.
+        data_tests:
+          - not_null
+
+      - name: ship_to_address_id
+        description: Identificador do endereço de entrega usado nas análises geográficas.
+        data_tests:
+          - not_null
+
+      - name: credit_card_id
+        description: Identificador do cartão usado no pedido. Pode ser nulo.
+
+      - name: subtotal
+        description: Valor subtotal dos produtos registrado no cabeçalho do pedido.
+
+      - name: tax_amount
+        description: Valor dos impostos do pedido.
+
+      - name: freight_amount
+        description: Valor do frete do pedido.
+
+      - name: total_due
+        description: Valor total do pedido, incluindo subtotal, impostos e frete.
+
+      - name: modified_at
+        description: Data da última alteração do registro na origem.
+
+  - name: stg_sales__sales_order_items
+    description: >
+      Itens dos pedidos de venda da Adventure Works.
+      Cada registro representa um produto vendido dentro de um pedido.
+
+    columns:
+      - name: sales_order_detail_id
+        description: Identificador único do item do pedido.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: sales_order_id
+        description: Identificador do pedido ao qual o item pertence.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales__sales_orders')
+                field: sales_order_id
+
+      - name: product_id
+        description: Identificador do produto vendido.
+        data_tests:
+          - not_null
+
+      - name: order_quantity
+        description: Quantidade vendida do produto no item.
+
+      - name: unit_price
+        description: Preço unitário do produto no momento da venda.
+
+      - name: unit_price_discount
+        description: Percentual de desconto aplicado ao preço unitário.
+
+      - name: modified_at
+        description: Data da última alteração do registro na origem.
