@@ -1,0 +1,169 @@
+version: 2
+
+sources:
+  - name: adventure_works
+    database: fea_academy
+    schema: adventure_works
+    description: Dados transacionais da Adventure Works.
+
+    tables:
+      - name: sales_salesorderheader
+        description: Pedidos realizados pelos clientes.
+        columns:
+          - name: salesorderid
+            description: Identificador único do pedido.
+            tests:
+              - not_null
+              - unique
+
+      - name: sales_salesorderdetail
+        description: Itens que representam os produtos vendidos em cada pedido.
+        columns:
+          - name: salesorderdetailid
+            description: Identificador único do item do pedido.
+            tests:
+              - not_null
+              - unique
+
+      - name: production_product
+        description: Produtos cadastrados pela Adventure Works.
+        columns:
+          - name: productid
+            description: Identificador único do produto.
+            tests:
+              - not_null
+              - unique
+
+          - name: name
+            description: Nome do produto.
+            tests:
+              - not_null
+
+      - name: sales_customer
+        description: Clientes cadastrados pela Adventure Works.
+        columns:
+          - name: customerid
+            description: Identificador único do cliente.
+            tests:
+              - not_null
+              - unique
+
+      - name: person_person
+        description: Pessoas cadastradas pela Adventure Works.
+        columns:
+          - name: businessentityid
+            description: Identificador único da pessoa.
+            tests:
+              - not_null
+              - unique
+
+      - name: sales_store
+        description: Lojas cadastradas como clientes empresariais.
+        columns:
+          - name: businessentityid
+            description: Identificador único da loja.
+            tests:
+              - not_null
+              - unique
+
+          - name: name
+            description: Nome da loja.
+            tests:
+              - not_null
+
+      - name: sales_creditcard
+        description: Cartões utilizados nos pedidos de venda.
+        columns:
+          - name: creditcardid
+            description: Identificador único do cartão.
+            tests:
+              - not_null
+              - unique
+
+          - name: cardtype
+            description: Tipo do cartão.
+            tests:
+              - not_null
+
+      - name: sales_salesreason
+        description: Motivos associados às vendas.
+        columns:
+          - name: salesreasonid
+            description: Identificador único do motivo de venda.
+            tests:
+              - not_null
+              - unique
+
+          - name: name
+            description: Nome do motivo de venda.
+            tests:
+              - not_null
+
+      - name: sales_salesorderheadersalesreason
+        description: Associação entre pedidos e seus motivos de venda.
+        columns:
+          - name: salesorderid
+            description: Identificador do pedido.
+            tests:
+              - not_null
+
+          - name: salesreasonid
+            description: Identificador do motivo de venda.
+            tests:
+              - not_null
+
+      - name: person_address
+        description: Endereços cadastrados pela Adventure Works.
+        columns:
+          - name: addressid
+            description: Identificador único do endereço.
+            tests:
+              - not_null
+              - unique
+
+          - name: stateprovinceid
+            description: Identificador do estado ou província do endereço.
+            tests:
+              - not_null
+
+      - name: person_stateprovince
+        description: Estados e províncias utilizados na estrutura geográfica.
+        columns:
+          - name: stateprovinceid
+            description: Identificador único do estado ou província.
+            tests:
+              - not_null
+              - unique
+
+          - name: countryregioncode
+            description: Código do país ou região ao qual o estado ou província pertence.
+            tests:
+              - not_null
+
+      - name: person_countryregion
+        description: Países e regiões cadastrados pela Adventure Works.
+        columns:
+          - name: countryregioncode
+            description: Código único do país ou região.
+            tests:
+              - not_null
+              - unique
+
+          - name: name
+            description: Nome do país ou região.
+            tests:
+              - not_null
+
+      - name: sales_salesterritory
+        description: Territórios comerciais da Adventure Works.
+        columns:
+          - name: territoryid
+            description: Identificador único do território comercial.
+            tests:
+              - not_null
+              - unique
+
+          - name: name
+            description: Nome do território comercial.
+            tests:
+              - not_null
