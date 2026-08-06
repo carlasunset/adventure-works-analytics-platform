@@ -22,6 +22,19 @@ sources:
           - name: salesorderdetailid
             description: Identificador único do item do pedido.
             tests:
-            - not_null
-            - unique
-            
+              - not_null
+              - unique
+
+      - name: production_product
+        description: Produtos cadastrados pela Adventure Works.
+        columns:
+          - name: productid
+            description: Identificador único do produto.
+            tests:
+              - not_null
+              - unique
+
+          - name: name
+            description: Nome do produto.
+            tests:
+              - not_null
