@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: stg_production__products
+    description: >
+      Produtos cadastrados pela Adventure Works.
+      Cada registro representa um único produto.
+
+    columns:
+      - name: product_id
+        description: Identificador único do produto.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: product_name
+        description: Nome do produto.
+        data_tests:
+          - not_null
