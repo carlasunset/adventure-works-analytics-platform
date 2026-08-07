@@ -94,3 +94,88 @@ models:
 
       - name: modified_at
         description: Data da última alteração do registro na origem.
+  
+  - name: stg_sales__credit_cards
+    description: >
+      Cartões utilizados nos pedidos de venda da Adventure Works.
+      Cada registro representa um cartão cadastrado.
+
+    columns:
+      - name: credit_card_id
+        description: Identificador único do cartão.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: card_type
+        description: Tipo do cartão.
+        data_tests:
+          - not_null
+
+      - name: expiration_month
+        description: Mês de expiração do cartão.
+
+      - name: expiration_year
+        description: Ano de expiração do cartão.
+
+      - name: modified_at
+        description: Data da última alteração do registro na origem.
+
+
+  - name: stg_sales__sales_reasons
+    description: >
+      Motivos de venda cadastrados pela Adventure Works.
+      Cada registro representa um motivo que pode ser associado a pedidos.
+
+    columns:
+      - name: sales_reason_id
+        description: Identificador único do motivo de venda.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: sales_reason_name
+        description: Nome do motivo de venda.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_type
+        description: Categoria do motivo de venda.
+
+      - name: modified_at
+        description: Data da última alteração do registro na origem.
+
+
+  - name: stg_sales__sales_order_reasons
+    description: >
+      Associação entre pedidos e motivos de venda.
+      Cada registro representa um motivo associado a um pedido.
+
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - sales_order_id
+              - sales_reason_id
+
+    columns:
+      - name: sales_order_id
+        description: Identificador do pedido associado ao motivo.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales__sales_orders')
+                field: sales_order_id
+
+      - name: sales_reason_id
+        description: Identificador do motivo associado ao pedido.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales__sales_reasons')
+                field: sales_reason_id
+
+      - name: modified_at
+        description: Data da última alteração do registro na origem.
