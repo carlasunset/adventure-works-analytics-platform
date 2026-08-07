@@ -11,7 +11,7 @@ renamed as (
         businessentityid as business_entity_id,
         name as store_name,
         salespersonid as sales_person_id,
-        modifieddate as modified_at
+        cast(modifieddate as timestamp) as modified_at
     from source
 )
 

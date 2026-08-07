@@ -9,10 +9,10 @@ renamed as (
 
     select
         customerid as customer_id,
-        personid as person_id,
-        storeid as store_id,
+        cast(personid as int) as person_id,
+        cast(storeid as int) as store_id,
         territoryid as territory_id,
-        modifieddate as modified_at
+        cast(modifieddate as timestamp) as modified_at
     from source
 
 )

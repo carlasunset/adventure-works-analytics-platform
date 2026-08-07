@@ -12,7 +12,7 @@ renamed as (
         name as territory_name,
         countryregioncode as country_region_code,
         group as territory_group,
-        modifieddate as modified_at
+        cast(modifieddate as date) as modified_at
     from source
 )
 

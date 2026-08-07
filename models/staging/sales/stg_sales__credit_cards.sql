@@ -12,7 +12,7 @@ renamed as (
         cardtype as card_type,
         expmonth as expiration_month,
         expyear as expiration_year,
-        modifieddate as modified_at
+        cast(date_format(modifieddate, "yyyy-MM-dd") as date) as modified_at
     from source
 
 )

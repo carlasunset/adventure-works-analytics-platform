@@ -9,7 +9,7 @@ renamed as (
 
     select
         salesorderid as sales_order_id,
-        orderdate as order_date,
+        cast(date_format(orderdate, "yyyy-MM-dd") as date) as order_date,
         status,
         customerid as customer_id,
         territoryid as territory_id,
@@ -20,7 +20,7 @@ renamed as (
         taxamt as tax_amount,
         freight as freight_amount,
         totaldue as total_due,
-        modifieddate as order_modified_at
+        cast(date_format(modifieddate, "yyyy-MM-dd") as date) as order_modified_at
     from source
 
 )

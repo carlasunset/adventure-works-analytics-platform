@@ -11,7 +11,7 @@ renamed as (
         salesreasonid as sales_reason_id,
         name as sales_reason_name,
         reasontype as sales_reason_type,
-        modifieddate as modified_at
+        cast(date_format(modifieddate, "yyyy-MM-dd") as date) as modified_at
     from source
 )
 

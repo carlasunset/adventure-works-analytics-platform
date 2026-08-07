@@ -14,7 +14,7 @@ renamed as (
         orderqty as order_quantity,
         unitprice as unit_price,
         unitpricediscount as unit_price_discount,
-        modifieddate as item_modified_at
+        cast(date_format(modifieddate, "yyyy-MM-dd") as date) as item_modified_at
     from source
 
 )
