@@ -54,7 +54,7 @@ models:
       - name: total_due
         description: Valor total do pedido, incluindo subtotal, impostos e frete.
 
-      - name: modified_at
+      - name: order_modified_at
         description: Data da última alteração do registro na origem.
 
   - name: stg_sales__sales_order_items
@@ -92,7 +92,7 @@ models:
       - name: unit_price_discount
         description: Percentual de desconto aplicado ao preço unitário.
 
-      - name: modified_at
+      - name: item_modified_at
         description: Data da última alteração do registro na origem.
   
   - name: stg_sales__credit_cards
