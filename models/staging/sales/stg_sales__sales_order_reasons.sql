@@ -10,7 +10,7 @@ renamed as (
     select
         salesorderid as sales_order_id,
         salesreasonid as sales_reason_id,
-        modifieddate as modified_at
+        cast(date_format(modifieddate, "yyyy-MM-dd") as date) as modified_at
     from source
 )
 
