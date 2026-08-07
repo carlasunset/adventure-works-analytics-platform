@@ -1,0 +1,129 @@
+version: 2
+
+models:
+  - name: stg_person__addresses
+    description: >
+      Endereços cadastrados pela Adventure Works.
+      Cada registro representa um endereço.
+
+    columns:
+      - name: address_id
+        description: Identificador único do endereço.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: city
+        description: Cidade do endereço.
+        data_tests:
+          - not_null
+
+      - name: state_province_id
+        description: Identificador do estado ou província do endereço.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_person__state_provinces')
+                field: state_province_id
+
+      - name: postal_code
+        description: Código postal do endereço.
+
+      - name: modified_at
+        description: Data da última alteração do registro na origem.
+
+
+  - name: stg_person__state_provinces
+    description: >
+      Estados e províncias cadastrados pela Adventure Works.
+      Cada registro representa um estado ou província.
+
+    columns:
+      - name: state_province_id
+        description: Identificador único do estado ou província.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: state_province_code
+        description: Código do estado ou província.
+
+      - name: country_region_code
+        description: Código do país ou região ao qual o estado ou província pertence.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_person__country_regions')
+                field: country_region_code
+
+      - name: state_province_name
+        description: Nome do estado ou província.
+        data_tests:
+          - not_null
+
+      - name: territory_id
+        description: Identificador do território comercial associado.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_sales__sales_territories')
+                field: territory_id
+
+      - name: modified_at
+        description: Data da última alteração do registro na origem.
+
+
+  - name: stg_person__country_regions
+    description: >
+      Países e regiões cadastrados pela Adventure Works.
+      Cada registro representa um país ou região.
+
+    columns:
+      - name: country_region_code
+        description: >
+          Código do país ou região.
+          A origem possui um registro conhecido com valor nulo para Namibia.
+        data_tests:
+          - not_null:
+              config:
+                severity: warn
+                warn_if: "> 0"
+                error_if: "> 1"
+          - unique
+
+      - name: country_region_name
+        description: Nome do país ou região.
+        data_tests:
+          - not_null
+
+      - name: modified_at
+        description: Data da última alteração do registro na origem.
+
+
+  - name: stg_sales__sales_territories
+    description: >
+      Territórios comerciais cadastrados pela Adventure Works.
+      Cada registro representa um território comercial.
+
+    columns:
+      - name: territory_id
+        description: Identificador único do território comercial.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: territory_name
+        description: Nome do território comercial.
+        data_tests:
+          - not_null
+
+      - name: country_region_code
+        description: Código do país ou região associado ao território.
+
+      - name: territory_group
+        description: Grupo geográfico do território comercial.
+
+      - name: modified_at
+        description: Data da última alteração do registro na origem.
