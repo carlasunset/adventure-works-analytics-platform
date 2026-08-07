@@ -5,17 +5,28 @@ with source as (
 
 ),
 
+corrections as (
+
+    select *
+    from {{ ref('state_province_name_corrections') }}
+
+),
+
 renamed as (
 
     select
-        stateprovinceid as state_province_id,
-        stateprovincecode as state_province_code,
-        countryregioncode as country_region_code,
-        name as state_province_name,
-        territoryid as territory_id,
-        modifieddate as modified_at
-    from source
+        s.stateprovinceid as state_province_id,
+        s.stateprovincecode as state_province_code,
+        s.countryregioncode as country_region_code,
+        coalesce(c.corrected_name, s.name) as state_province_name,
+        s.territoryid as territory_id,
+        cast(s.modifieddate as timestamp) as modified_at
+
+    from source as s
+    left join corrections as c
+    on s.countryregioncode = c.country_region_code and s.name = c.original_name
+
 )
 
-select * 
+select *
 from renamed
