@@ -14,7 +14,7 @@ renamed as (
         orderqty as order_quantity,
         unitprice as unit_price,
         unitpricediscount as unit_price_discount,
-        modifieddate as modified_at
+        modifieddate as item_modified_at
     from source
 
 )
