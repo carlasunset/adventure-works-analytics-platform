@@ -144,9 +144,15 @@ sources:
         description: Países e regiões cadastrados pela Adventure Works.
         columns:
           - name: countryregioncode
-            description: Código único do país ou região.
+            description: >
+              Código do país ou região. A origem possui um registro conhecido
+              com valor nulo para Namibia.
             tests:
-              - not_null
+              - not_null:
+                  config:
+                    severity: warn
+                    warn_if: "> 0"
+                    error_if: "> 1"
               - unique
 
           - name: name
