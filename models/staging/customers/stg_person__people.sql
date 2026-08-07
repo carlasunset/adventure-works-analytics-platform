@@ -14,7 +14,7 @@ renamed as (
         middlename as middle_name,
         lastname as last_name,
         trim(concat_ws(' ', firstname, middlename, lastname)) as full_name,
-        modifieddate as modified_at
+        cast(modifieddate as timestamp) as modified_at
     from source
 )
 
