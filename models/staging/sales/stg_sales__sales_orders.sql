@@ -20,7 +20,7 @@ renamed as (
         taxamt as tax_amount,
         freight as freight_amount,
         totaldue as total_due,
-        modifieddate as modified_at
+        modifieddate as order_modified_at
     from source
 
 )
