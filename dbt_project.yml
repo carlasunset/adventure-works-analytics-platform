@@ -25,3 +25,9 @@ models:
   adventure_works_analytics:
     staging:
       +materialized: view
+
+    intermediate:
+      +materialized: view
+
+    marts:
+      +materialized: table
