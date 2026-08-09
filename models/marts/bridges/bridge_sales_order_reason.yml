@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: bridge_sales_order_reason
+    description: >
+      Bridge entre pedidos e motivos de venda.
+      Cada registro representa uma associação única entre um pedido
+      e um motivo de venda analítico, incluindo 'No Sales Reason'
+      para pedidos sem motivo informado na origem.
+
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - sales_order_id
+              - sales_reason_key
+
+    columns:
+      - name: sales_order_id
+        description: Identificador do pedido associado ao motivo.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales__sales_orders')
+                field: sales_order_id
+
+      - name: sales_reason_key
+        description: Chave substituta do motivo de venda associado ao pedido.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_sales_reason')
+                field: sales_reason_key
