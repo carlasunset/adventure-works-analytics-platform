@@ -41,6 +41,11 @@ models:
 
       - name: credit_card_id
         description: Identificador do cartão usado no pedido. Pode ser nulo.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_sales__credit_cards')
+                field: credit_card_id
 
       - name: subtotal
         description: Valor subtotal dos produtos registrado no cabeçalho do pedido.
@@ -82,6 +87,10 @@ models:
         description: Identificador do produto vendido.
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_production__products')
+                field: product_id
 
       - name: order_quantity
         description: Quantidade vendida do produto no item.

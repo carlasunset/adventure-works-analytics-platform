@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: dim_product
+    description: >
+      Dimensão de produtos cadastrados pela Adventure Works.
+      Cada registro representa um único produto.
+
+    columns:
+      - name: product_key
+        description: Chave substituta da dimensão Produto.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: product_id
+        description: Identificador natural do produto no sistema de origem.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: product_name
+        description: Nome do produto.
+        data_tests:
+          - not_null
