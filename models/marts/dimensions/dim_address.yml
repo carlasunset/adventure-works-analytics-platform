@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: dim_address
+    description: >
+      Dimensão de endereços da Adventure Works.
+      Cada registro representa um address_id enriquecido com
+      atributos geográficos de cidade, estado ou província e país.
+
+    columns:
+      - name: address_key
+        description: Chave substituta da dimensão de endereços.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: address_id
+        description: Identificador natural do endereço.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: city
+        description: Cidade associada ao endereço.
+        data_tests:
+          - not_null
+
+      - name: state_province_code
+        description: Código do estado ou província associado ao endereço.
+
+      - name: state_province_name
+        description: Nome do estado ou província associado ao endereço.
+        data_tests:
+          - not_null
+
+      - name: country_region_code
+        description: Código do país ou região associado ao endereço.
+        data_tests:
+          - not_null
+
+      - name: country_region_name
+        description: Nome do país ou região associado ao endereço.
+        data_tests:
+          - not_null
