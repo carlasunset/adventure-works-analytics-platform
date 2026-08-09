@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: int_sales__order_reasons_enriched
+    description: >
+      Associa pedidos aos seus motivos de venda.
+      Cada registro representa uma combinação única entre sales_order_id
+      e sales_reason_id analítico. Pedidos sem motivo na origem recebem
+      sales_reason_id = -1 e sales_reason_name = 'No Sales Reason'.
+
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - sales_order_id
+              - sales_reason_id
+
+    columns:
+      - name: sales_order_id
+        description: Identificador do pedido.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_id
+        description: >
+          Identificador do motivo de venda. O valor -1 é criado na camada
+          analítica para representar pedidos sem motivo de venda informado.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_name
+        description: >
+          Nome do motivo de venda. Pedidos sem motivo recebem
+          'No Sales Reason'.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_type
+        description: >
+          Categoria do motivo de venda. Pedidos sem motivo recebem
+          'No Sales Reason'.
+        data_tests:
+          - not_null
