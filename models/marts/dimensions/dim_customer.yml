@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: >
+      Dimensão de clientes da Adventure Works.
+      Cada registro representa um customer_id utilizado no processo de vendas.
+
+    columns:
+      - name: customer_key
+        description: Chave substituta da dimensão de clientes.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        description: Identificador natural do cliente.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: full_name
+        description: >
+          Nome completo da pessoa associada ao cliente.
+          Pode ser nulo para clientes associados somente a uma loja.
+
+      - name: person_type
+        description: Tipo da pessoa associada ao cliente.
+
+      - name: store_name
+        description: >
+          Nome da loja associada ao cliente, quando aplicável.
+          Pode ser nulo para clientes sem loja associada.
