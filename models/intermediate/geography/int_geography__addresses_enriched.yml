@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: int_geography__addresses_enriched
+    description: >
+      Endereços enriquecidos com atributos de estado, província e país.
+      Cada registro representa um address_id.
+
+    columns:
+      - name: address_id
+        description: Identificador único do endereço.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: city
+        description: Cidade associada ao endereço.
+        data_tests:
+          - not_null
+
+      - name: postal_code
+        description: Código postal do endereço.
+
+      - name: state_province_id
+        description: Identificador do estado ou província associado ao endereço.
+        data_tests:
+          - not_null
+
+      - name: state_province_code
+        description: Código do estado ou província.
+
+      - name: state_province_name
+        description: Nome do estado ou província.
+        data_tests:
+          - not_null
+
+      - name: country_region_code
+        description: Código do país ou região associado ao endereço.
+        data_tests:
+          - not_null
+
+      - name: country_region_name
+        description: Nome do país ou região associado ao endereço.
+        data_tests:
+          - not_null
+
+      - name: modified_at
+        description: Data da última alteração do endereço na origem.
