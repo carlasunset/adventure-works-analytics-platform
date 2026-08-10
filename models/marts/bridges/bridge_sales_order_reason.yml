@@ -8,6 +8,10 @@ models:
       e um motivo de venda analítico, incluindo 'No Sales Reason'
       para pedidos sem motivo informado na origem.
 
+    config:
+      contract:
+        enforced: true
+
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -18,6 +22,7 @@ models:
     columns:
       - name: sales_order_id
         description: Identificador do pedido associado ao motivo.
+        data_type: bigint
         data_tests:
           - not_null
           - relationships:
@@ -27,6 +32,7 @@ models:
 
       - name: sales_reason_key
         description: Chave substituta do motivo de venda associado ao pedido.
+        data_type: string
         data_tests:
           - not_null
           - relationships:
