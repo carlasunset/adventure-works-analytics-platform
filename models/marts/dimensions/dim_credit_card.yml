@@ -7,9 +7,14 @@ models:
       Cada registro representa um cartão cadastrado, com um membro
       adicional para pedidos sem cartão associado.
 
+    config:
+      contract:
+        enforced: true
+
     columns:
       - name: credit_card_key
         description: Chave substituta da dimensão Cartão.
+        data_type: string
         data_tests:
           - not_null
           - unique
@@ -18,6 +23,7 @@ models:
         description: >
           Identificador natural do cartão no sistema de origem.
           É nulo apenas no membro especial 'No Credit Card'.
+        data_type: bigint
         data_tests:
           - unique
 
@@ -25,5 +31,6 @@ models:
         description: >
           Tipo do cartão utilizado para análise. O valor
           'No Credit Card' representa pedidos sem cartão associado.
+        data_type: string
         data_tests:
           - not_null
