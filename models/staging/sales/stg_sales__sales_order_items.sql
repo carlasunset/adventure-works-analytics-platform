@@ -12,8 +12,8 @@ renamed as (
         salesorderid as sales_order_id,
         productid as product_id,
         orderqty as order_quantity,
-        unitprice as unit_price,
-        unitpricediscount as unit_price_discount,
+        cast(unitprice as decimal(18,4)) as unit_price,
+        cast(unitpricediscount as decimal(18,4)) as unit_price_discount,
         cast(date_format(modifieddate, "yyyy-MM-dd") as date) as item_modified_at
     from source
 
