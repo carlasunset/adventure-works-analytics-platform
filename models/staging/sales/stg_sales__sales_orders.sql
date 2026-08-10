@@ -15,11 +15,11 @@ renamed as (
         territoryid as territory_id,
         billtoaddressid as bill_to_address_id,
         shiptoaddressid as ship_to_address_id,
-        creditcardid as credit_card_id,
-        subtotal,
-        taxamt as tax_amount,
-        freight as freight_amount,
-        totaldue as total_due,
+        cast(creditcardid as bigint) as credit_card_id,
+        cast(subtotal as decimal(18,4)) as subtotal,
+        cast(taxamt as decimal(18,4)) as tax_amount,
+        cast(freight as decimal(18,4)) as freight_amount,
+        cast(totaldue as decimal(18,4)) as total_due,
         cast(date_format(modifieddate, "yyyy-MM-dd") as date) as order_modified_at
     from source
 

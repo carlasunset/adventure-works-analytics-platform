@@ -1,0 +1,109 @@
+version: 2
+
+models:
+  - name: fct_sales
+    description: >
+      Fato de vendas da Adventure Works no grão de item de pedido.
+      Cada linha representa um produto vendido dentro de um pedido de venda.
+
+    columns:
+      - name: sales_order_item_key
+        description: Chave surrogate única do item de venda.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: sales_order_detail_id
+        description: Identificador natural único do item do pedido.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: sales_order_id
+        description: Identificador do pedido ao qual o item pertence.
+        data_tests:
+          - not_null
+
+      - name: product_key
+        description: Chave da dimensão de produto.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: product_key
+
+      - name: customer_key
+        description: Chave da dimensão de cliente.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_key
+
+      - name: date_key
+        description: Chave da dimensão de data correspondente à data do pedido.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+
+      - name: credit_card_key
+        description: >
+          Chave da dimensão de cartão. Pedidos sem cartão utilizam
+          o registro analítico destinado a representar ausência de cartão.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_credit_card')
+                field: credit_card_key
+
+      - name: address_key
+        description: >
+          Chave da dimensão de endereço correspondente ao endereço
+          de entrega do pedido.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_address')
+                field: address_key
+
+      - name: status
+        description: Status do pedido de venda.
+        data_tests:
+          - not_null
+
+      - name: order_quantity
+        description: Quantidade do produto vendida no item do pedido.
+        data_tests:
+          - not_null
+
+      - name: unit_price
+        description: Preço unitário do produto no momento da venda.
+        data_tests:
+          - not_null
+
+      - name: unit_price_discount
+        description: Taxa de desconto aplicada ao preço unitário.
+        data_tests:
+          - not_null
+
+      - name: gross_amount
+        description: Valor bruto do item antes do desconto.
+        data_tests:
+          - not_null
+
+      - name: discount_amount
+        description: Valor monetário do desconto aplicado ao item.
+        data_tests:
+          - not_null
+
+      - name: net_amount
+        description: Valor líquido do item após o desconto.
+        data_tests:
+          - not_null
