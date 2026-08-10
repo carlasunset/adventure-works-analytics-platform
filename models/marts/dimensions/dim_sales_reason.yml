@@ -8,9 +8,14 @@ models:
       O valor sales_reason_id = -1 representa pedidos sem motivo
       informado na origem.
 
+    config:
+      contract:
+        enforced: true
+    
     columns:
       - name: sales_reason_key
         description: Chave substituta da dimensão de motivos de venda.
+        data_type: string
         data_tests:
           - not_null
           - unique
@@ -20,16 +25,19 @@ models:
           Identificador natural do motivo de venda.
           O valor -1 é criado na camada analítica para representar
           'No Sales Reason'.
+        data_type: bigint
         data_tests:
           - not_null
           - unique
 
       - name: sales_reason_name
         description: Nome do motivo de venda.
+        data_type: string
         data_tests:
           - not_null
 
       - name: sales_reason_type
         description: Categoria do motivo de venda.
+        data_type: string
         data_tests:
           - not_null
