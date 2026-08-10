@@ -6,20 +6,27 @@ models:
       Dimensão de produtos cadastrados pela Adventure Works.
       Cada registro representa um único produto.
 
+    config:
+      contract:
+        enforced: true
+
     columns:
       - name: product_key
         description: Chave substituta da dimensão Produto.
+        data_type: string
         data_tests:
           - not_null
           - unique
 
       - name: product_id
         description: Identificador natural do produto no sistema de origem.
+        data_type: bigint
         data_tests:
           - not_null
           - unique
 
       - name: product_name
         description: Nome do produto.
+        data_type: string
         data_tests:
           - not_null
