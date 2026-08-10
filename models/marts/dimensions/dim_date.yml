@@ -7,46 +7,58 @@ models:
       Cada registro representa um dia do calendário entre 2011-01-01
       e 2014-12-31.
 
+    config:
+      contract:
+        enforced: true
+
     columns:
       - name: date_key
         description: >
           Chave da dimensão no formato YYYYMMDD.
+        data_type: int
         data_tests:
           - not_null
           - unique
 
       - name: date
         description: Data completa do calendário.
+        data_type: date
         data_tests:
           - not_null
           - unique
 
       - name: year
         description: Ano da data.
+        data_type: int
         data_tests:
           - not_null
 
       - name: quarter
         description: Trimestre do ano, de 1 a 4.
+        data_type: int
         data_tests:
           - not_null
 
       - name: month_number
         description: Número do mês, de 1 a 12.
+        data_type: int
         data_tests:
           - not_null
 
       - name: month_name
         description: Nome do mês.
+        data_type: string
         data_tests:
           - not_null
 
       - name: year_month
         description: Ano e mês no formato YYYY-MM.
+        data_type: string
         data_tests:
           - not_null
 
       - name: day_of_month
         description: Dia do mês.
+        data_type: int
         data_tests:
           - not_null
