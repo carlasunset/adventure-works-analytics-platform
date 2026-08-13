@@ -1,0 +1,26 @@
+version: 2
+
+exposures:
+  - name: adventure_works_sales_dashboard
+    label: Adventure Works Sales Dashboard
+    type: dashboard
+    maturity: high
+    url: "https://app.powerbi.com/view?r=eyJrIjoiN2ZlZGM5NjQtODZiNi00ODM4LTlmMTctZTQ5YTU1NDgwZTY0IiwidCI6ImZhZGU5M2Q1LTdlMGYtNDRiMi1hZjQzLTJhMmVmZDVhYjQzMCJ9"
+
+    description: >
+      Interactive Power BI dashboard for Adventure Works sales analytics,
+      covering sales performance, customers, geography, products,
+      credit cards and sales reasons.
+
+    depends_on:
+      - ref('fct_sales')
+      - ref('dim_product')
+      - ref('dim_customer')
+      - ref('dim_address')
+      - ref('dim_credit_card')
+      - ref('dim_date')
+      - ref('dim_sales_reason')
+      - ref('bridge_sales_order_reason')
+
+    owner:
+      name: Carla Lira Rodrigues
