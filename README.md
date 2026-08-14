@@ -157,9 +157,9 @@ The analytical model was designed from the Adventure Works transactional schema 
 
 At its core, `fct_sales` represents one sales order item and connects directly to dimensions for products, customers, dates, credit card types, and geography. Sales reasons are associated separately through `bridge_sales_order_reason` to safely represent the many-to-many relationship at the sales order level.
 
-The many-to-many relationship between sales orders and sales reasons is handled through `bridge_sales_order_reason`, preserving the sales fact grain and preventing metric duplication.
-
 ![Adventure Works Conceptual Dimensional Model](assets/model/conceptual-dimensional-model.png)
+
+---
 
 ---
 
