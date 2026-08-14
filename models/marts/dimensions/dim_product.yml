@@ -3,8 +3,8 @@ version: 2
 models:
   - name: dim_product
     description: >
-      Dimensão de produtos cadastrados pela Adventure Works.
-      Cada registro representa um único produto.
+      Dimensão de produtos da Adventure Works utilizada nas análises de vendas.
+      Cada registro representa um único produto disponível no modelo analítico.
 
     config:
       contract:
@@ -12,7 +12,7 @@ models:
 
     columns:
       - name: product_key
-        description: Chave substituta da dimensão Produto.
+        description: Chave surrogate única da dimensão de produto.
         data_type: string
         data_tests:
           - not_null
@@ -26,7 +26,7 @@ models:
           - unique
 
       - name: product_name
-        description: Nome do produto.
+        description: Nome comercial do produto utilizado nas análises e agrupamentos.
         data_type: string
         data_tests:
           - not_null

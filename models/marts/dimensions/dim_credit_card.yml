@@ -3,8 +3,8 @@ version: 2
 models:
   - name: dim_credit_card
     description: >
-      Dimensão dos cartões cadastrados pela Adventure Works.
-      Cada registro representa um cartão cadastrado, com um membro
+      Dimensão de cartões da Adventure Works utilizada nas análises de vendas.
+      Cada registro representa um cartão cadastrado, com um membro analítico
       adicional para pedidos sem cartão associado.
 
     config:
@@ -13,7 +13,7 @@ models:
 
     columns:
       - name: credit_card_key
-        description: Chave substituta da dimensão Cartão.
+        description: Chave surrogate única da dimensão de cartão.
         data_type: string
         data_tests:
           - not_null
@@ -22,7 +22,7 @@ models:
       - name: credit_card_id
         description: >
           Identificador natural do cartão no sistema de origem.
-          É nulo apenas no membro especial 'No Credit Card'.
+          É nulo apenas no membro analítico 'No Credit Card'.
         data_type: bigint
         data_tests:
           - unique

@@ -8,6 +8,17 @@ The platform emphasizes **data quality, dimensional modeling, metric consistency
 
 ---
 
+## Live Dashboard
+
+Explore the interactive Power BI dashboard:
+
+[**View Live Dashboard →**](https://app.powerbi.com/view?r=eyJrIjoiN2ZlZGM5NjQtODZiNi00ODM4LTlmMTctZTQ5YTU1NDgwZTY0IiwidCI6ImZhZGU5M2Q1LTdlMGYtNDRiMi1hZjQzLTJhMmVmZDVhYjQzMCJ9)
+
+> Interactive sales analytics covering sales performance, customers, geography, products, and sales reasons.
+
+![Adventure Works Sales Overview Dashboard](assets/dashboard/sales-overview.png)
+
+
 ## Business Context
 
 Adventure Works needs a reliable analytical foundation to support sales decision-making.
@@ -36,27 +47,67 @@ The analytical model also needs to support filtering and segmentation by:
 
 ---
 
+## Business Questions & Analytical Coverage
+
+The analytics platform supports the main sales questions required for decision-making across products, customers, geography, time, payment methods, order status, and sales reasons.
+
+| Business Analysis | Analytical Capability |
+|---|---|
+| Sales performance | Orders, purchased quantity, gross sales, discounts, and net sales across the main business dimensions |
+| Product performance | Product ranking and average ticket analysis by period and geography |
+| Customer value | Top customers by negotiated sales value with multidimensional filtering |
+| Geographic performance | City, state, and country analysis, including top-performing locations |
+| Sales trends | Monthly and yearly evolution of orders, quantity, and sales value |
+| Promotion analysis | Product performance specifically associated with the `Promotion` sales reason |
+
+These analyses are delivered through an interactive Power BI dashboard backed by the governed dimensional marts.
+
+---
+
+## Selected Analytical Domain
+
+The Adventure Works transactional database contains a much broader operational schema than the subset required for this sales analytics platform.
+
+For this analytical product, the selected business entities were:
+
+* sales orders;
+* sales order items;
+* products;
+* customers;
+* credit cards;
+* sales reasons;
+* addresses and geographic attributes.
+
+These entities were selected because they directly support the required sales analyses across product, customer, time, payment method, sales reason, status, city, state, and country.
+
+The analytical model was therefore designed around the sales process rather than reproducing the transactional schema as-is.
+
+---
+
 ## Architecture
 
 The analytics workflow follows a layered dbt architecture:
 
 ```text
-Adventure Works Source
-        │
-        ▼
-     Sources
-        │
-        ▼
-     Staging
-        │
-        ▼
-   Intermediate
-        │
-        ▼
- Dimensional Marts
-        │
-        ▼
-     Power BI
+Adventure Works Transactional Data
+              │
+              ▼
+           Sources
+              │
+              ▼
+           Staging
+              │
+              ▼
+        Intermediate
+              │
+              ▼
+      Dimensional Marts
+              │
+              ▼
+      Power BI Dashboard
+
+Governance & Observability:
+dbt Contracts • Tests • Documentation • Lineage • Exposure
 ```
 
 ### Sources
@@ -83,79 +134,59 @@ This layer is also used to safely resolve relationships that could otherwise int
 
 ### Marts
 
-Provides the dimensional models consumed by analytics and BI.
+Publishes the dimensional models consumed by Power BI and other analytical use cases.
 
-Published marts include:
+The sales mart includes:
 
-* fact tables;
-* dimensions;
-* relationship models required for analytical filtering.
+* `fct_sales`;
+* `dim_product`;
+* `dim_customer`;
+* `dim_date`;
+* `dim_credit_card`;
+* `dim_address`;
+* `dim_sales_reason`;
+* `bridge_sales_order_reason`.
 
-The marts are protected with **dbt contracts and data tests**.
+These published models are protected with **dbt contracts, data tests, and documented lineage** to provide a stable analytical interface for downstream consumption.
 
 ---
 
 ## Dimensional Model
 
-The core sales model is centered around:
+The analytical model was designed from the Adventure Works transactional schema by selecting the entities required to support the sales business questions.
 
-### `fct_sales`
+At its core, `fct_sales` represents one sales order item and connects directly to dimensions for products, customers, dates, credit card types, and geography. Sales reasons are associated separately through `bridge_sales_order_reason` to safely represent the many-to-many relationship at the sales order level.
 
-**Grain:** one row per sales order item.
+![Adventure Works Conceptual Dimensional Model](assets/model/conceptual-dimensional-model.png)
 
-The fact contains the keys required to analyze each sold item across the main business dimensions.
-
-Core measures include:
-
-* order quantity;
-* unit price;
-* gross sales amount;
-* discount amount;
-* net sales amount.
-
-### Dimensions
-
-Current analytical dimensions include:
-
-* `dim_product`
-* `dim_customer`
-* `dim_date`
-* `dim_credit_card`
-* `dim_address`
-* `dim_sales_reason`
-
-Additional relationship models are used where the source relationship cannot safely be represented as a simple one-to-many join.
+---
 
 ---
 
 ## Handling Many-to-Many Sales Reasons
 
-An order can be associated with multiple sales reasons.
+A sales order can be associated with multiple sales reasons, which creates a many-to-many relationship and a potential fanout risk when combined with item-level sales metrics.
 
-Joining sales reasons directly to the sales fact would therefore increase the number of rows and duplicate financial measures.
+The model isolates this relationship through `bridge_sales_order_reason`, preserving the grain of `fct_sales` and preventing financial measures from being duplicated by direct joins.
 
-The project handles this relationship separately, preserving the original sales fact grain and preventing accidental fanout.
-
-For analytical consumption, sales reason is treated as an **association/filtering dimension rather than an additive financial grain**.
-
-This distinction is documented because financial values filtered by multiple reasons must not be summed across sales reasons as if the categories were mutually exclusive.
+Sales reason is therefore used for analytical association and filtering, while financial metrics remain anchored to the original sales fact grain.
 
 ---
 
 ## Core Metrics
 
-The analytical layer uses consistent metric definitions.
+The analytical layer uses consistent metric definitions across dbt models and Power BI.
 
-| Metric             | Definition                           |
-| ------------------ | ------------------------------------ |
-| Number of Orders   | Distinct count of sales orders       |
-| Purchased Quantity | Sum of order quantity                |
-| Gross Sales        | `Order Quantity × Unit Price`        |
-| Discount Amount    | `Gross Sales × Unit Price Discount`  |
-| Net Sales          | `Gross Sales - Discount Amount`      |
-| Average Ticket     | Net sales divided by distinct orders |
+| Metric | Definition |
+|---|---|
+| Number of Orders | Distinct count of sales orders |
+| Purchased Quantity | Sum of order quantity |
+| Gross Sales | Order quantity × unit price |
+| Discount Amount | Gross sales × unit price discount |
+| Net Sales | Gross sales − discount amount |
+| Average Ticket | Net sales divided by distinct orders |
 
-Metric definitions are centralized so that transformations and BI calculations do not introduce conflicting business logic.
+These definitions are kept consistent across the analytical pipeline to avoid conflicting business logic between transformation and BI layers.
 
 ---
 
@@ -163,7 +194,7 @@ Metric definitions are centralized so that transformations and BI calculations d
 
 Data quality is treated as part of the analytical architecture rather than as a final validation step.
 
-The project currently includes:
+The platform includes:
 
 * source tests;
 * primary key tests;
@@ -177,6 +208,23 @@ The project currently includes:
 A model is not considered ready for consumption simply because it executes successfully.
 
 Its grain, keys, relationships, metrics, tests, and downstream behavior must also be validated.
+
+---
+
+## Governance & Lineage
+
+Published analytical models are governed through dbt features that protect their structure and make dependencies transparent.
+
+The platform includes:
+
+* enforced contracts on published marts;
+* documented models and columns;
+* tested relationships between facts, dimensions, and bridge models;
+* lineage managed through `source()` and `ref()`;
+* generated dbt Docs for model and dependency inspection;
+* the `adventure_works_sales_dashboard` exposure connecting the Power BI analytical product to its upstream marts.
+
+These controls help keep the dimensional layer stable, traceable, and safe for downstream analytical consumption.
 
 ---
 
@@ -236,26 +284,26 @@ This control helps ensure that transformations do not introduce:
 ├── tests/
 ├── macros/
 ├── docs/
+├── assets/
 ├── dbt_project.yml
+├── packages.yml
 └── README.md
 ```
 
-The repository structure follows the transformation lifecycle rather than mirroring the transactional database directly.
+The repository is organized around the analytical transformation lifecycle, with separate layers for source standardization, business transformations, dimensional publication, testing, documentation, and delivery assets.
 
 ---
 
 ## Development Workflow
 
-Changes are developed using a controlled Git workflow:
+Changes are developed through a controlled Git workflow:
 
 ```text
 Feature Branch
       ↓
 Implementation
       ↓
-dbt Build
-      ↓
-Validation
+dbt Build & Validation
       ↓
 Commit
       ↓
@@ -264,45 +312,53 @@ Pull Request
 Merge
 ```
 
-Branches are organized around cohesive development cycles or features rather than individual models whenever possible.
+Branches are organized around cohesive development cycles or features, supporting traceability and controlled delivery of analytical changes.
 
 ---
 
 ## Validation
 
-The project has been validated through:
+The analytical model was validated through a combination of structural, relational, and financial checks.
 
-* source profiling;
-* grain analysis;
-* cardinality analysis;
+Key validation evidence includes:
+
+* source profiling and data type validation;
+* grain and cardinality analysis;
 * join fanout checks;
 * row-count reconciliation;
-* financial reconciliation;
-* dbt tests;
-* dbt contracts;
-* full `dbt build` execution;
-* generated dbt documentation;
-* lineage inspection.
+* relationship and primary key tests;
+* financial reconciliation for 2011 gross sales;
+* dbt contracts on published marts;
+* successful full `dbt build` execution;
+* generated dbt documentation and lineage inspection.
 
-The current sales fact preserves the expected sales-order-item grain across **121,317 sales items**.
+The final sales fact preserves the expected item-level grain across **121,317 sales items**.
 
 ---
 
 ## Analytics Consumption
 
-The dimensional layer is designed to support an interactive **Power BI dashboard**.
+The dimensional marts power an interactive Power BI dashboard designed for business exploration while keeping core metric definitions and modeling rules governed in the analytical layer.
 
-The dashboard provides analysis across:
+### Sales Overview
 
-* sales performance;
-* products;
-* customers;
-* geography;
-* time;
-* payment methods;
-* sales reasons.
+Executive view of sales performance, including core KPIs, product performance, geographic rankings, and sales evolution over time.
 
-Business logic is intentionally kept in the analytics layer whenever possible rather than being duplicated inside BI.
+![Sales Overview](assets/dashboard/sales-overview.png)
+
+### Customers & Geography
+
+Customer and geographic analysis across cities, states, and countries, with multidimensional filtering.
+
+![Customers & Geography](assets/dashboard/customers-geography.png)
+
+### Products & Sales Reason
+
+Product performance and sales reason analysis, including dedicated analysis for the `Promotion` sales reason.
+
+![Products & Sales Reason](assets/dashboard/products-sales-reason.png)
+
+The dashboard consumes the published dimensional marts and is registered in dbt through the `adventure_works_sales_dashboard` exposure, connecting the analytical product to its upstream lineage.
 
 ---
 
@@ -326,30 +382,24 @@ These principles guide both modeling decisions and implementation choices throug
 
 ---
 
-## Project Status
+## Delivered Analytics Product
 
-The core analytical warehouse is operational.
+The Adventure Works Analytics Platform is operational as an end-to-end analytical solution for the sales domain.
 
-Completed components include:
+Delivered components include:
 
-* source modeling;
-* staging models;
-* intermediate transformations;
-* dimensional sales model;
-* fact and dimensions;
-* sales reason relationship modeling;
-* data quality tests;
-* financial reconciliation;
-* dbt contracts;
-* dbt documentation and lineage.
-
-Current work is focused on:
-
-* analytical consumption in Power BI;
-* validating the complete set of business questions;
-* final technical documentation;
-* conceptual dimensional model;
-* delivery documentation.
+* source modeling and source-level testing;
+* standardized staging models;
+* intermediate transformations and relationship handling;
+* dimensional marts for sales analysis;
+* item-level sales fact modeling;
+* customer, product, date, geography, payment, and sales reason dimensions;
+* many-to-many sales reason modeling through a dedicated bridge;
+* financial metric definitions and reconciliation controls;
+* dbt contracts and data tests;
+* generated dbt documentation and lineage;
+* an interactive Power BI dashboard;
+* dbt exposure connecting the dashboard to its upstream marts.
 
 ---
 

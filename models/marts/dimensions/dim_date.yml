@@ -3,9 +3,9 @@ version: 2
 models:
   - name: dim_date
     description: >
-      Dimensão calendário utilizada para análises temporais das vendas.
-      Cada registro representa um dia do calendário entre 2011-01-01
-      e 2014-12-31.
+      Dimensão calendário utilizada nas análises temporais de vendas.
+      Cada registro representa um único dia do calendário entre 2011-01-01
+      e 2014-12-31, permitindo agregações e filtros por dia, mês, trimestre e ano.
 
     config:
       contract:
@@ -13,8 +13,7 @@ models:
 
     columns:
       - name: date_key
-        description: >
-          Chave da dimensão no formato YYYYMMDD.
+        description: Chave única da dimensão de data no formato YYYYMMDD.
         data_type: int
         data_tests:
           - not_null

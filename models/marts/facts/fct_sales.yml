@@ -4,7 +4,9 @@ models:
   - name: fct_sales
     description: >
       Fato de vendas da Adventure Works no grão de item de pedido.
-      Cada linha representa um produto vendido dentro de um pedido de venda.
+      Cada linha representa um produto vendido dentro de um pedido de venda
+      e concentra as métricas financeiras e chaves dimensionais utilizadas
+      para análises de vendas.
 
     config:
       contract:
@@ -86,7 +88,7 @@ models:
                 field: address_key
 
       - name: status
-        description: Status do pedido de venda.
+        description: Código de status do pedido de venda conforme registrado na fonte.
         data_type: bigint
         data_tests:
           - not_null
@@ -104,7 +106,7 @@ models:
           - not_null
 
       - name: unit_price_discount
-        description: Taxa de desconto aplicada ao preço unitário.
+        description: Taxa decimal de desconto aplicada ao preço unitário do item.
         data_type: decimal(8,4)
         data_tests:
           - not_null
