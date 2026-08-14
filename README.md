@@ -161,8 +161,6 @@ At its core, `fct_sales` represents one sales order item and connects directly t
 
 ---
 
----
-
 ## Handling Many-to-Many Sales Reasons
 
 A sales order can be associated with multiple sales reasons, which creates a many-to-many relationship and a potential fanout risk when combined with item-level sales metrics.
