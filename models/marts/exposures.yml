@@ -8,9 +8,9 @@ exposures:
     url: "https://app.powerbi.com/view?r=eyJrIjoiN2ZlZGM5NjQtODZiNi00ODM4LTlmMTctZTQ5YTU1NDgwZTY0IiwidCI6ImZhZGU5M2Q1LTdlMGYtNDRiMi1hZjQzLTJhMmVmZDVhYjQzMCJ9"
 
     description: >
-      Interactive Power BI dashboard for Adventure Works sales analytics,
-      covering sales performance, customers, geography, products,
-      credit cards and sales reasons.
+      Dashboard interativo do Power BI alimentado pelos marts dimensionais
+      de vendas da Adventure Works, cobrindo análises de desempenho de vendas,
+      clientes, geografia, produtos, cartões e motivos de venda.
 
     depends_on:
       - ref('fct_sales')

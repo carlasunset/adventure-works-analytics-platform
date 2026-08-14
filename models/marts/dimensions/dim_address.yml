@@ -3,9 +3,9 @@ version: 2
 models:
   - name: dim_address
     description: >
-      Dimensão de endereços da Adventure Works.
-      Cada registro representa um address_id enriquecido com
-      atributos geográficos de cidade, estado ou província e país.
+      Dimensão de endereços da Adventure Works utilizada nas análises geográficas
+      de vendas. Cada registro representa um único address_id enriquecido com
+      atributos de cidade, estado ou província e país.
 
     config:
       contract:
@@ -13,7 +13,7 @@ models:
     
     columns:
       - name: address_key
-        description: Chave substituta da dimensão de endereços.
+        description: Chave surrogate única da dimensão de endereço.
         data_type: string
         data_tests:
           - not_null

@@ -3,7 +3,8 @@ version: 2
 models:
   - name: bridge_sales_order_reason
     description: >
-      Bridge entre pedidos e motivos de venda.
+      Bridge entre pedidos e motivos de venda utilizada para representar
+      com segurança o relacionamento muitos-para-muitos desse domínio.
       Cada registro representa uma associação única entre um pedido
       e um motivo de venda analítico, incluindo 'No Sales Reason'
       para pedidos sem motivo informado na origem.
@@ -31,7 +32,7 @@ models:
                 field: sales_order_id
 
       - name: sales_reason_key
-        description: Chave substituta do motivo de venda associado ao pedido.
+        description: Chave surrogate da dimensão de motivo de venda associada ao pedido.
         data_type: string
         data_tests:
           - not_null
