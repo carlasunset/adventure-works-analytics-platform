@@ -364,17 +364,12 @@ The dashboard consumes the published dimensional marts and is registered in dbt 
 
 The project follows a few core principles:
 
-> Business process before fact table.
-
-> Grain before joins.
-
-> Cardinality before aggregation.
-
-> Data quality before publication.
-
-> One definition for each metric.
-
-> No join is considered safe without fanout analysis.
+* Business process before fact table.
+* Grain before joins.
+* Cardinality before aggregation.
+* Data quality before publication.
+* One definition for each metric.
+* No join is considered safe without fanout analysis.
 
 These principles guide both modeling decisions and implementation choices throughout the platform.
 
