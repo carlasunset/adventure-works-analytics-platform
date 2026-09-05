@@ -224,6 +224,8 @@ The platform includes:
 
 These controls help keep the dimensional layer stable, traceable, and safe for downstream analytical consumption.
 
+![dbt Cloud lineage](assets/dbt-lineage.png)
+
 ---
 
 ## Financial Reconciliation
