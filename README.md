@@ -12,7 +12,7 @@ The platform emphasizes **data quality, dimensional modeling, metric consistency
 
 Explore the interactive Power BI dashboard:
 
-[**View Live Dashboard →**](https://app.powerbi.com/view?r=eyJrIjoiN2ZlZGM5NjQtODZiNi00ODM4LTlmMTctZTQ5YTU1NDgwZTY0IiwidCI6ImZhZGU5M2Q1LTdlMGYtNDRiMi1hZjQzLTJhMmVmZDVhYjQzMCJ9)
+[**View Live Dashboard →**](https://app.powerbi.com/view?r=eyJrIjoiMDg4ZWI3MTItN2Q4Ni00MTNlLWE4NTMtMTE2Mjg5MmE4MDAyIiwidCI6ImZhZGU5M2Q1LTdlMGYtNDRiMi1hZjQzLTJhMmVmZDVhYjQzMCJ9&pageName=1b75c3fc19cdbaaad4e0)
 
 > Interactive sales analytics covering sales performance, customers, geography, products, and sales reasons.
 
